@@ -18,11 +18,23 @@ struct Cli {
     // Output file, stdout if not present
     #[structopt(short = "o", long = "output", parse(from_os_str))]
     output: Option<std::path::PathBuf>,
-    
-    // Number test
-    #[structopt(short = "n", long = "number")]
-    num: i32, 
 
+    // chromosome
+    #[structopt(short = "c", long = "chromosome")]
+    chrom: String,
+
+    // feature type
+    #[structopt(short = "t", long = "type")]
+    feature: String,
+
+    // Start index
+    #[structopt(short = "s", long = "start")]
+    start: u32, 
+
+    // End index
+    #[structopt(short = "e", long = "end")]
+    end: u32,
+   
 }
 
 
@@ -33,9 +45,10 @@ fn main() {
     // Print arg to debug
     println!("{:?}", cli);
     
-    let number = &cli.num;
-
-    println!("number = {}", number);
+    let chromosome = &cli.chrom;
+    let feature = &cli.feature;
+    let start = &cli.start;
+    let end = &cli.end;
 
 }
 
