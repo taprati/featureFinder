@@ -3,11 +3,12 @@
 // Author: Tyler Aprati
 // 
 
-
+use std::io::Write;
 use structopt::StructOpt;
 
 
 // TODO: fill out args with descriptions
+// TODO: order args in help?
 // Create command line structure
 #[derive(Debug, StructOpt)]
 struct Cli {
@@ -50,7 +51,8 @@ fn main() {
     // put args into variables
     let input = std::fs::read_to_string(args.input)
                             .expect("File not Found!");
-    // TODO: output file
+    let mut output = std::fs::File::create("output.txt")
+                            .expect("Unable to create output file!");
     let chromosome = args.chrom;
     let feature = args.feature;
     let start = args.start;
@@ -62,11 +64,14 @@ fn main() {
         let fields: Vec<&str> = line.split("\t").collect();
 
         // TODO: is there a better way to do this? / write to file?
+        // TODO: make header optional?
         // check for header
         let head = &fields[0].chars().nth(0).unwrap();
-        // if header skip
+        // if header add to output, then continue
         if head == &'#' {
             println!("{}", line);
+            output.write_all(line.as_bytes())
+                                .expect("Write failed!");
             continue 'outer ;
         }
         
@@ -81,6 +86,8 @@ fn main() {
             if feat == feature {
                 if (e >= start) & (s <= end) {
                     println!("{}", line);
+                    output.write(line)
+                                    .expect("Write failed!");
                 }
             }
         }
