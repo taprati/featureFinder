@@ -7,6 +7,8 @@
 use structopt::StructOpt;
 
 
+// TODO: fill out args with descriptions
+// Create command line structure
 #[derive(Debug, StructOpt)]
 struct Cli {
 
@@ -41,42 +43,48 @@ fn main() {
     // Parse args 
     let args = Cli::from_args();
 
+    // TODO: remove this when finished 
     // Print arg to debug
     println!("{:?}", args);
     
     // put args into variables
     let input = std::fs::read_to_string(args.input)
                             .expect("File not Found!");
-    let chromosome = &args.chrom;
-    let feature = &args.feature;
-    let start = &args.start;
-    let end = &args.end;
+    // TODO: output file
+    let chromosome = args.chrom;
+    let feature = args.feature;
+    let start = args.start;
+    let end = args.end;
 
     // parse file 
     'outer: for line in input.lines() {
         // parse line by tabs
         let fields: Vec<&str> = line.split("\t").collect();
 
-        // TODO: is there a better way to do this?
+        // TODO: is there a better way to do this? / write to file?
         // check for header
         let head = &fields[0].chars().nth(0).unwrap();
         // if header skip
         if head == &'#' {
+            println!("{}", line);
             continue 'outer ;
         }
         
         // parse fields into variables
         let chrom = fields[0].trim();
+        let feat = fields[2].trim();
+        let s = fields[3].trim().parse::<u32>().unwrap();
+        let e = fields[4].trim().parse::<u32>().unwrap(); 
 
-        // TODO: make the whole comparison
+        // check line against criteria
         if chrom == chromosome {
-            println!("{}", chrom);
+            if feat == feature {
+                if (e >= start) & (s <= end) {
+                    println!("{}", line);
+                }
+            }
         }
-
-        //println!("{}", chrom);
-            
     }
-
 }
 
 
