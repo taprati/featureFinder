@@ -38,15 +38,12 @@ struct Cli {
     end: u32,
 }
 
-
 fn main() {
+
     // Parse args 
     let args = Cli::from_args();
-
     // TODO: remove this when finished 
-    // Print arg to debug
     println!("{:?}", args);
-    
     // put args into variables
     let input = fs::read_to_string(args.input).expect("File not Found!");
     let mut output = fs::File::create("output.txt").expect("Output failed!");
@@ -66,15 +63,13 @@ fn main() {
         // if header add to output, then continue
         if head == &'#' {
             write!(output, "{}\n", line).expect("Failed to write!");
-            continue 'outer ;
+            continue 'outer;
         }
-        
         // parse fields into variables
         let chrom = fields[0].trim();
         let feat = fields[2].trim();
         let s = fields[3].trim().parse::<u32>().unwrap();
         let e = fields[4].trim().parse::<u32>().unwrap(); 
-
         // check line against criteria
         if chrom == chromosome {
             if feat == feature {
