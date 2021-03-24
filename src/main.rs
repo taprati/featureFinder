@@ -3,6 +3,7 @@
 // Author: Tyler Aprati
 // 
 
+use std::fs;
 use std::io::Write;
 use structopt::StructOpt;
 
@@ -12,7 +13,6 @@ use structopt::StructOpt;
 // Create command line structure
 #[derive(Debug, StructOpt)]
 struct Cli {
-
     // Input file
     #[structopt(short = "i", long = "input", parse(from_os_str))]
     input: std::path::PathBuf,
@@ -36,7 +36,6 @@ struct Cli {
     // End index
     #[structopt(short = "e", long = "end")]
     end: u32,
-   
 }
 
 
@@ -49,10 +48,8 @@ fn main() {
     println!("{:?}", args);
     
     // put args into variables
-    let input = std::fs::read_to_string(args.input)
-                            .expect("File not Found!");
-    let mut output = std::fs::File::create("output.txt")
-                            .expect("Unable to create output file!");
+    let input = fs::read_to_string(args.input).expect("File not Found!");
+    let mut output = fs::File::create("output.txt").expect("Output failed!");
     let chromosome = args.chrom;
     let feature = args.feature;
     let start = args.start;
@@ -62,16 +59,13 @@ fn main() {
     'outer: for line in input.lines() {
         // parse line by tabs
         let fields: Vec<&str> = line.split("\t").collect();
-
         // TODO: is there a better way to do this? / write to file?
         // TODO: make header optional?
         // check for header
         let head = &fields[0].chars().nth(0).unwrap();
         // if header add to output, then continue
         if head == &'#' {
-            println!("{}", line);
-            output.write_all(line.as_bytes())
-                                .expect("Write failed!");
+            write!(output, "{}\n", line).expect("Failed to write!");
             continue 'outer ;
         }
         
@@ -85,14 +79,10 @@ fn main() {
         if chrom == chromosome {
             if feat == feature {
                 if (e >= start) & (s <= end) {
-                    println!("{}", line);
-                    output.write(line)
-                                    .expect("Write failed!");
+                    write!(output, "{}\n", line).expect("Failed to write!");
                 }
             }
         }
     }
 }
-
-
 
