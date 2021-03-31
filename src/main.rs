@@ -17,9 +17,12 @@ struct Cli {
     #[structopt(short = "i", long = "input", parse(from_os_str))]
     input: std::path::PathBuf,
 
-    // Output file, stdout if not present
-    #[structopt(short = "o", long = "output", parse(from_os_str))]
-    output: Option<std::path::PathBuf>,
+    // Output file
+    #[structopt(short = "o", 
+        long = "output", 
+        default_value = "featureFinderOutput.out",
+    )]
+    output: String,
 
     // include header in output
     #[structopt(short = "k", long = "keepHeader")]
@@ -53,7 +56,7 @@ fn main() {
 
     // put args into variables
     let input = fs::read_to_string(args.input).expect("File not Found!");
-    let mut output = fs::File::create("output.txt").expect("Output failed!");
+    let mut output = fs::File::create(args.output).expect("Output failed!");
     let chromosome = args.chrom;
     let feature = args.feature;
     let start = args.start;
