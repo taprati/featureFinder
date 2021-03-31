@@ -21,6 +21,10 @@ struct Cli {
     #[structopt(short = "o", long = "output", parse(from_os_str))]
     output: Option<std::path::PathBuf>,
 
+    // include header in output
+    #[structopt(short = "k", long = "keepHeader")]
+    header: bool,
+
     // chromosome
     #[structopt(short = "c", long = "chromosome")]
     chrom: String,
@@ -51,6 +55,7 @@ fn main() {
     let feature = args.feature;
     let start = args.start;
     let end = args.end;
+    let header = args.header;
 
     // parse file 
     'outer: for line in input.lines() {
@@ -62,7 +67,9 @@ fn main() {
         let head = &fields[0].chars().nth(0).unwrap();
         // if header add to output, then continue
         if head == &'#' {
-            write!(output, "{}\n", line).expect("Failed to write!");
+            if header == true {
+                write!(output, "{}\n", line).expect("Failed to write!");
+            }
             continue 'outer;
         }
         // parse fields into variables
