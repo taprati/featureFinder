@@ -3,68 +3,13 @@
 // Author: Tyler Aprati
 // 
 
+
+mod cli;
+
 use std::fs;
 use std::io::Write;
+use crate::cli::Cli;
 use structopt::StructOpt;
-
-
-// TODO: fill out args with descriptions
-// TODO: order args in help?
-// TODO: put all this into a separate module
-// Create command line structure
-#[derive(Debug, StructOpt)]
-struct Cli {
-    // Input file
-    #[structopt(
-        short = "i",
-        long = "input",
-        parse(from_os_str)
-    )]
-    input: std::path::PathBuf,
-
-    // Output file
-    #[structopt(
-        short = "o", 
-        long = "output", 
-        default_value = "featureFinderOutput.out",
-    )]
-    output: String,
-
-    // include header in output
-    #[structopt(
-        short = "k",
-        long = "keepHeader"
-    )]
-    header: bool,
-
-    // chromosome
-    #[structopt(
-        short = "c",
-        long = "chromosome"
-    )]
-    chrom: String,
-
-    // feature type
-    #[structopt(
-        short = "t",
-        long = "type"
-    )]
-    feature: String,
-
-    // Start index
-    #[structopt(
-        short = "s",
-        long = "start"
-    )]
-    start: u32,
-
-    // End index
-    #[structopt(
-        short = "e",
-        long = "end"
-    )]
-    end: u32,
-}
 
 
 fn main() {
