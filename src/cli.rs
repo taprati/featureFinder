@@ -11,7 +11,8 @@ pub struct Cli {
     #[structopt(
         short = "i",
         long = "input",
-        parse(from_os_str)
+        parse(from_os_str),
+        help = "GFF file to search through."
     )]
     pub input: std::path::PathBuf,
 
@@ -19,42 +20,48 @@ pub struct Cli {
     #[structopt(
         short = "o", 
         long = "output", 
-        default_value = "featureFinderOutput.out"
+        default_value = "featureFinderOutput.out",
+        help = "Output file."
     )]
     pub output: String,
 
     // include header in output
     #[structopt(
         short = "k",
-        long = "keepHeader"
+        long = "keepHeader",
+        help = "Flag for including the input file header in the output. By default header is removed."
     )]
     pub header: bool,
 
     // chromosome
     #[structopt(
         short = "c",
-        long = "chromosome"
+        long = "chromosome",
+        help = "Chromosome of interest"
     )]
     pub chrom: String,
 
     // feature type
     #[structopt(
         short = "t",
-        long = "type"
+        long = "type",
+        help = "The type of feature you want. (mRNA, gene, exon, etc)."
     )]
     pub feature: String,
 
     // Start index
     #[structopt(
         short = "s",
-        long = "start"
+        long = "start",
+        help = "The start index of the region to search."
     )]
     pub start: u32,
 
     // End index
     #[structopt(
         short = "e",
-        long = "end"
+        long = "end",
+        help = "The end index of the region to search."
     )]
     pub end: u32,
 }
