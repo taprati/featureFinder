@@ -1,7 +1,7 @@
 
 Input file: scaffold_15.gff
 Chromosome: NW_004531725.1
-Type: gene
+Type: mRNA
 Start Index: 7500000
 End Index: 7600000
 
