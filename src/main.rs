@@ -3,6 +3,9 @@
 // Author: Tyler Aprati
 // 
 
+// TODO: make output stdout if no file provided
+// TODO: add license
+// TODO: make all params optional?
 
 mod cli;
 

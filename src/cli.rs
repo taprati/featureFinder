@@ -6,6 +6,14 @@ use structopt::StructOpt;
 
 // Create command line structure
 #[derive(Debug, StructOpt)]
+#[structopt(
+    about = "This program parses gff files according to criteria",
+    setting = structopt::clap::AppSettings::ColoredHelp,
+    setting = structopt::clap::AppSettings::DisableVersion,
+    setting = structopt::clap::AppSettings::DeriveDisplayOrder,
+    setting = structopt::clap::AppSettings::ArgRequiredElseHelp,
+    
+)]
 pub struct Cli {
     // Input file
     #[structopt(
